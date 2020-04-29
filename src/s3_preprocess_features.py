@@ -50,7 +50,7 @@ def process_features(X0, Y0, video_indices, classes):
     # To:   time-serials features calculated from multiple raw features
     #       of multiple adjacent images, including speed, normalized pos, etc.
     ADD_NOISE = False
-    if ADD_NOISE:
+    '''if ADD_NOISE:
         X1, Y1 = extract_multi_frame_features(
             X0, Y0, video_indices, WINDOW_SIZE, 
             is_adding_noise=True, is_print=True)
@@ -64,7 +64,11 @@ def process_features(X0, Y0, video_indices, classes):
         X, Y = extract_multi_frame_features(
             X0, Y0, video_indices, WINDOW_SIZE, 
             is_adding_noise=False, is_print=True)
-        return X, Y
+        return X, Y'''
+    X, Y = extract_multi_frame_features(
+        X0, Y0, video_indices, WINDOW_SIZE, 
+        is_adding_noise=False, is_print=True)
+    return X, Y
 
 # -- Main
 

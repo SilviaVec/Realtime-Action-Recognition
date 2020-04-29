@@ -238,12 +238,13 @@ class MultiPersonClassifier(object):
         return self.dict_id2clf[id]
 
 
-def remove_skeletons_with_few_joints(skeletons):
+def remove_skeletons_with_few_joints(skeletons):                              ##DA VEDERE IL 13
     ''' Remove bad skeletons before sending to the tracker '''
     good_skeletons = []
     for skeleton in skeletons:
-        px = skeleton[2:2+13*2:2]
-        py = skeleton[3:2+13*2:2]
+        px = skeleton[2:2+13*3:3]
+        py = skeleton[3:2+13*3:3]
+        pz = skeleton[4:2+13*3:3]
         num_valid_joints = len([x for x in px if x != 0])
         num_leg_joints = len([x for x in px[-6:] if x != 0])
         total_size = max(py) - min(py)
@@ -293,7 +294,7 @@ def draw_result_img(img_disp, ith_img, humans, dict_id2skeleton,
     return img_disp
 
 
-def get_the_skeleton_data_to_save_to_disk(dict_id2skeleton):
+def get_the_skeleton_data_to_save_to_disk(dict_id2skeleton):                            ##DA NON RICHIAMARE
     '''
     In each image, for each skeleton, save the:
         human_id, label, and the skeleton positions of length 18*2.
@@ -349,7 +350,7 @@ if __name__ == "__main__":
             skeletons = remove_skeletons_with_few_joints(skeletons)
 
             # -- Track people
-            dict_id2skeleton = multiperson_tracker.track(
+            dict_id2skeleton = multiperson_tracker.track(                          ## IL MULTIPERSON NON CI SERVE
                 skeletons)  # int id -> np.array() skeleton
 
             # -- Recognize action of each person
@@ -358,11 +359,11 @@ if __name__ == "__main__":
                     dict_id2skeleton)
 
             # -- Draw
-            img_disp = draw_result_img(img_disp, ith_img, humans, dict_id2skeleton,
+            img_disp = draw_result_img(img_disp, ith_img, humans, dict_id2skeleton,     ## IL DRAW NON CI SERVE
                                        skeleton_detector, multiperson_classifier)
 
             # Print label of a person
-            if len(dict_id2skeleton):
+            if len(dict_id2skeleton):                                                   ## IL lable non ci serve
                 min_id = min(dict_id2skeleton.keys())
                 print("prediced label is :", dict_id2label[min_id])
 
