@@ -25,7 +25,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 # Image info includes: [cnt_action, cnt_clip, cnt_image, img_action_label, filepath]
 LEN_IMG_INFO = 5
-LEN_SKELETON_XY = 18*2
+LEN_SKELETON_XY = 17*3                                                                      ##MODIFY
 NaN = 0  # `Not A Number`, which is the value for invalid data.
 
 # -- Functions
@@ -209,7 +209,7 @@ def load_skeleton_data(filepath, classes):
         # Get skeleton data, which is in the pos [5, 41)
         # LEN_IMG_INFO = 5
         # LEN_SKELETON_XY = 36
-        X = np.array([row[LEN_IMG_INFO:LEN_IMG_INFO+LEN_SKELETON_XY]
+        X = np.array([row[LEN_IMG_INFO:LEN_IMG_INFO+LEN_SKELETON_XY]                 
                       for row in dataset])
 
         # row[1] is the video index of the image
