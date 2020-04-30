@@ -183,7 +183,7 @@ def load_skeleton_data(filepath, classes):
     ''' Load training data from skeletons_info.txt.
     Some notations:
         N: number of valid data.
-        P: feature dimension. Here P=36.
+        P: feature dimension. Here P=17*3.
         C: number of classes.
     Arguments:
         filepath {str}: file path of `skeletons_info.txt`, which stores the skeletons and labels.
@@ -206,9 +206,9 @@ def load_skeleton_data(filepath, classes):
             return row[0] != 0
         dataset = [row for i, row in enumerate(dataset) if is_good_data(row)]
 
-        # Get skeleton data, which is in the pos [5, 41)
+        # Get skeleton data, which is in the pos [5, 56)
         # LEN_IMG_INFO = 5
-        # LEN_SKELETON_XY = 36
+        # LEN_SKELETON_XY = 51
         X = np.array([row[LEN_IMG_INFO:LEN_IMG_INFO+LEN_SKELETON_XY]                 
                       for row in dataset])
 
@@ -256,7 +256,7 @@ def _get_skeletons_with_complete_upper_body(X, NaN=0):
         NaN {int}: `Not A Number`, which is the value for invalid data.
     '''
 
-    left_idx, right_idx = 0, 14 * 2  # 1head+1neck+2*(3arms + 3legs)
+    left_idx, right_idx = 0, 17 * 3  # 1head+1neck+2*(3arms + 3legs)
 
     def is_valid(x):
         return len(np.where(x[left_idx:right_idx] == NaN)[0]) == 0

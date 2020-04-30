@@ -44,10 +44,10 @@ def retrain_only_body_joints(skeleton):
     deal with the case when head joints are missing.
 
     '''
-    return skeleton.copy()[2:2+13*2]
+    return skeleton.copy()[2:2+17*3]                           #MODIFY
 
 
-TOTAL_JOINTS = 13
+TOTAL_JOINTS = 17                                               #MODIFY
 NECK = 0
 L_ARMS = [1, 2, 3]
 R_ARMS = [4, 5, 6]
