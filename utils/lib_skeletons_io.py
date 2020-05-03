@@ -25,7 +25,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 # Image info includes: [cnt_action, cnt_clip, cnt_image, img_action_label, filepath]
 LEN_IMG_INFO = 5
-LEN_SKELETON_XY = 17*3                                                                      ##MODIFY
+LEN_SKELETON_XY = 18*3                                                                      ##MODIFIED
 NaN = 0  # `Not A Number`, which is the value for invalid data.
 
 # -- Functions
@@ -183,7 +183,7 @@ def load_skeleton_data(filepath, classes):
     ''' Load training data from skeletons_info.txt.
     Some notations:
         N: number of valid data.
-        P: feature dimension. Here P=17*3.
+        P: feature dimension. Here P=18*3.
         C: number of classes.
     Arguments:
         filepath {str}: file path of `skeletons_info.txt`, which stores the skeletons and labels.
@@ -252,11 +252,11 @@ def _get_skeletons_with_complete_upper_body(X, NaN=0):
     Arguments:
         X {np.array, shape=NxP}: Feature of each sample. 
             N is number of samples, P is feature dimension.
-            P = 36 = 18*2.
+            P = 54 = 18*3.
         NaN {int}: `Not A Number`, which is the value for invalid data.
     '''
 
-    left_idx, right_idx = 0, 17 * 3  # 1head+1neck+2*(3arms + 3legs)
+    left_idx, right_idx = 0, 14 * 3  # 1head+1neck+2*(3arms + 3legs)
 
     def is_valid(x):
         return len(np.where(x[left_idx:right_idx] == NaN)[0]) == 0

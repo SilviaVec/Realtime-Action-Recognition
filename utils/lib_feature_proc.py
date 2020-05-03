@@ -44,10 +44,10 @@ def retrain_only_body_joints(skeleton):
     deal with the case when head joints are missing.
 
     '''
-    return skeleton.copy()[2:2+17*3]                           #MODIFY
+    return skeleton.copy()[2:2+13*3]                           #MODIFIED
 
 
-TOTAL_JOINTS = 17                                               #MODIFY
+TOTAL_JOINTS = 18                                               
 NECK = 0
 L_ARMS = [1, 2, 3]
 R_ARMS = [4, 5, 6]
@@ -132,15 +132,17 @@ class Math():
 # -- Functions for processing features
 
 
-def get_joint(x, idx):
-    px = x[2*idx]
-    py = x[2*idx+1]
-    return px, py
+def get_joint(x, idx):                                     #MODIFIED
+    px = x[3*idx]
+    py = x[3*idx+1]
+    pz = x[3*idx+2]
+    return px, py, pz
 
 
-def set_joint(x, idx, px, py):
-    x[2*idx] = px
-    x[2*idx+1] = py
+def set_joint(x, idx, px, py, pz):                              #MODIFIED
+    x[3*idx] = px
+    x[3*idx+1] = py
+    x[3*idx+2] = pz
     return
 
 
@@ -158,7 +160,7 @@ class ProcFtr(object):
         rand_num = np.random.random()
         if rand_num < thresh:
             joint_idx = int((rand_num / thresh)*N)
-            set_joint(x, joint_idx, NaN, NaN)
+            set_joint(x, joint_idx, NaN, NaN, NaN)
         return x
 
     @staticmethod
@@ -167,15 +169,15 @@ class ProcFtr(object):
         return check_joint(x, NECK) and (check_joint(x, L_THIGH) or check_joint(x, R_THIGH))
 
     @staticmethod
-    def get_body_height(x):
+    def get_body_height(x):                                                       #MODIFIED
         ''' Compute height of the body, which is defined as:
             the distance between `neck` and `thigh`.
         '''
-        x0, y0 = get_joint(x, NECK)
+        x0, y0, z0 = get_joint(x, NECK)
 
         # Get average thigh height
-        x11, y11 = get_joint(x, L_THIGH)
-        x12, y12 = get_joint(x, R_THIGH)
+        x11, y11, z11 = get_joint(x, L_THIGH)
+        x12, y12, z12 = get_joint(x, R_THIGH)
         if y11 == NaN and y12 == NaN:  # Invalid data
             return 1.0
         if y11 == NaN:
@@ -183,10 +185,11 @@ class ProcFtr(object):
         elif y12 == NaN:
             x1, y1 = x11, y11
         else:
-            x1, y1 = (x11 + x12) / 2, (y11 + y12) / 2
+            x1, y1, z1 = (x11 + x12) / 2, (y11 + y12) / 2, (z11 + z12) / 2              #MODIFIED
 
         # Get body height
-        height = ((x0-x1)**2 + (y0-y1)**2)**(0.5)
+        height = math.sqrt((x0-x1)**2 + (y0-y1)**2 + (z0-z1)**2)                        #MODIFIED
+
         return height
 
     @staticmethod
@@ -195,9 +198,10 @@ class ProcFtr(object):
         TODO: Deal with empty data.
         '''
         x = x.copy()
-        px0, py0 = get_joint(x, NECK)
-        x[0::2] = x[0::2] - px0
-        x[1::2] = x[1::2] - py0
+        px0, py0, pz0 = get_joint(x, NECK)                                               #MODIFIED
+        x[0::3] = x[0::3] - px0
+        x[1::3] = x[1::3] - py0
+        x[2::3] = x[2::3] - pz0
         return x
 
     @staticmethod
@@ -392,12 +396,13 @@ class FeatureGenerator(object):
         '''
         res = x.copy()
 
-        def get_px_py_px0_py0(x):
-            px = x[0::2]  # list of x
-            py = x[1::2]  # list of y
-            px0, py0 = get_joint(x, NECK)  # neck
-            return px, py, px0, py0
-        cur_px, cur_py, cur_px0, cur_py0 = get_px_py_px0_py0(x)
+        def get_px_py_px0_py0(x):                                          #MODIFIED
+            px = x[0::3]  # list of x
+            py = x[1::3]  # list of y
+            pz = x[2::3]  # list of y
+            px0, py0, pz0 = get_joint(x, NECK)  # neck
+            return px, py, pz, px0, py0, pz0
+        cur_px, cur_py, cur_pz, cur_px0, cur_py0, cur_pz0 = get_px_py_px0_py0(x)
         cur_height = ProcFtr.get_body_height(x)
 
         is_lack_knee = check_joint(x, L_KNEE) or check_joint(x, R_KNEE)
@@ -405,13 +410,17 @@ class FeatureGenerator(object):
         if (self._pre_x is None) or is_lack_knee or is_lack_ankle:
             # If preious data is invalid or there is no knee or ankle,
             # then fill the data based on the STAND_SKEL_NORMED.
-            for i in range(TOTAL_JOINTS*2):
+            for i in range(TOTAL_JOINTS*3):                                              #MODIFIED
                 if res[i] == NaN:
-                    res[i] = (cur_px0 if i % 2 == 0 else cur_py0) + \
-                        cur_height * STAND_SKEL_NORMED[i]
+                    if (i % 3 == 0):
+                        res[i] = (cur_px0) + cur_height * STAND_SKEL_NORMED[i]
+                    elif (i % 3 == 1):
+                        res[i] = (cur_py0) + cur_height * STAND_SKEL_NORMED[i]
+                    else:
+                        res[i] = (cur_pz0) + cur_height * STAND_SKEL_NORMED[i]
             return res
 
-        pre_px, pre_py, pre_px0, pre_py0 = get_px_py_px0_py0(self._pre_x)
+        pre_px, pre_py, pre_pz, pre_px0, pre_py0, pre_pz0 = get_px_py_px0_py0(self._pre_x)            #MODIFIED
         pre_height = ProcFtr.get_body_height(self._pre_x)
 
         scale = cur_height / pre_height
@@ -422,8 +431,10 @@ class FeatureGenerator(object):
 
         cur_px[bad_idxs] = cur_px0 + (pre_px[bad_idxs] - pre_px0) * scale
         cur_py[bad_idxs] = cur_py0 + (pre_py[bad_idxs] - pre_py0) * scale
-        res[::2] = cur_px
-        res[1::2] = cur_py
+        cur_py[bad_idxs] = cur_pz0 + (pre_pz[bad_idxs] - pre_pz0) * scale
+        res[::3] = cur_px
+        res[1::3] = cur_py
+        res[2::3] = cur_pz
         return res
 
     def _add_noises(self, x, intensity):
