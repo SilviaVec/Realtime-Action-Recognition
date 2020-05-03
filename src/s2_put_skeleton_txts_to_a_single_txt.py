@@ -59,7 +59,7 @@ def read_skeletons_from_ith_txt(i):
             If there are mutliple people, then there are multiple skeletons' data in this txt.
     Return:
         skeletons_in_ith_txt {list of list}:
-            Length of each skeleton data is supposed to be 41 = 5 image info + 36 xy positions. 
+            Length of each skeleton data is supposed to be 59 = 5 image info + 54 xyz positions. 
     '''
     filename = SRC_DETECTED_SKELETONS_FOLDER + \
         SKELETON_FILENAME_FORMAT.format(i)
@@ -69,18 +69,18 @@ def read_skeletons_from_ith_txt(i):
 
 def get_length_of_one_skeleton_data(filepaths):
     ''' Find a non-empty txt file, and then get the length of one skeleton data.
-    The data length should be 41, where:
-    41 = 5 + 36.
+    The data length should be 59, where:
+    59 = 5 + 54.
         5: [cnt_action, cnt_clip, cnt_image, action_label, filepath]
             See utils.lib_io.get_training_imgs_info for more details
-        36: 18 joints * 2 xy positions
+        54: 18 joints * 3 xyz positions
     '''
     for i in range(len(filepaths)):
         skeletons = read_skeletons_from_ith_txt(i)
         if len(skeletons):
             skeleton = skeletons[IDX_PERSON]
             data_size = len(skeleton)
-            assert(data_size == 41)
+            assert(data_size == 59)                                                   #MODIFIED
             return data_size
     raise RuntimeError(f"No valid txt under: {SRC_DETECTED_SKELETONS_FOLDER}.")
 
@@ -105,6 +105,7 @@ if __name__ == "__main__":
 
         # Read skeletons from a txt
         skeletons = read_skeletons_from_ith_txt(i)
+        print(len(skeletons))
         if not skeletons:  # If empty, discard this image.
             continue
         skeleton = skeletons[IDX_PERSON]
