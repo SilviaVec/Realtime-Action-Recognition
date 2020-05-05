@@ -27,7 +27,7 @@ if True:  # Include project path
     #   because this script only transfer (part of) the data from many txts to a single txt,
     #   without doing any data analsysis.
 
-    import utils.lib_commons as lib_commons
+import utils.lib_commons as lib_commons
 
 
 def par(path):  # Pre-Append ROOT to the path if it's not absolute
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         label = skeleton[IDX_ACTION_LABEL]
         if label not in CLASSES:  # If invalid label, discard this image.
             continue
-        labels_cnt[label] += 1
+        labels_cnt[label] += 1 
 
         # Push to result
         all_skeletons.append(skeleton)
