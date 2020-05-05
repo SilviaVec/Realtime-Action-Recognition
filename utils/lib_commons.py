@@ -26,36 +26,7 @@ from os import listdir
 from os.path import isfile, join
 import functools
 import simplejson
-
-
-def getXYZandName(ll)                                               #ADDED
-    mylist=ll.get("bodies")
-    listToStr = ' '.join([str(elem) for elem in mylist]) 
-
-    x = listToStr.split("[")
-    x = x[1].split("]")
-    coords=x[0].split(",")
-
-    zerotolen = range(0,len(coords))
-    for i in zerotolen:
-        coords[i]= float(coords[i])
-
-    anticounter = range(18,-1,-1)
-    for i in anticounter: 
-        numero=coords[(4*i)-1]
-        coords.remove(numero)
-
-    coordsNew=[]
-    ordine=[1,16,15,18,17,3,9,4,10,5,11,6,12,7,13,8,14]
-
-    indici= range(0,16)
-    for i in indici:
-        coordsNew.append(coords[ordine[i]*3])
-        coordsNew.append(coords[ordine[i]*3+1])
-        coordsNew.append(coords[ordine[i]*3+2])
-
-    univocName=ll.get("univTime")
-    return coordsNew, univocName
+from src.s12_new import getFrameSectionLable
 
 
 def int2str(num, idx_len):
@@ -74,8 +45,7 @@ def read_listlist(filepath):
     ''' Read a list of lists from file '''
     with open(filepath, 'r') as f:   
         ll = simplejson.load(f)
-        coordsxyz, univocName = getXYZandName(ll)                         #TODO mettere anche i rimanenti 3 numeri davanti (vedi esempio in alto)
-        return ll
+    return ll
 
 
 def read_yaml(filepath):
