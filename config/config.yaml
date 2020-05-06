@@ -9,8 +9,8 @@ classes: ['stand', 'walk', 'run', 'jump', 'sit', 'squat', 'kick', 'punch', 'wave
 #classes: ['lying', 'other', 'sitting', 'standing']
 
 image_filename_format: "{:05d}.jpg"
-skeleton_filename_format: "{:05d}.txt"
-
+skeleton_filename_format: "{:08d}.json"                                              #MODIFIED
+ 
 features:
   window_size: 5 # Number of adjacent frames for extracting features. 
 
