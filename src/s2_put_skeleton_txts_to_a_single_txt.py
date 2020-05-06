@@ -59,7 +59,7 @@ def read_skeletons_from_ith_txt(i):
             If there are mutliple people, then there are multiple skeletons' data in this txt.
     Return:
         skeletons_in_ith_txt {list of list}:
-            Length of each skeleton data is supposed to be 59 = 5 image info + 54 xyz positions. 
+            Length of each skeleton data is supposed to be 56 = 5 image info + 51 xyz positions. 
     '''
     filename = SRC_DETECTED_SKELETONS_FOLDER + \
         SKELETON_FILENAME_FORMAT.format(i)

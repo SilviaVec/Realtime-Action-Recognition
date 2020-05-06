@@ -35,9 +35,9 @@ def getXYZandName(ll):
         coords.remove(numero)
 
     coordsNew=[]
-    ordine=[1,16,15,18,17,3,9,4,10,5,11,6,12,7,13,8,14]
+    ordine=[1,0,9,10,11,3,4,5,12,13,14,6,7,8,16,15,18,17]
 
-    indici= range(0,17)
+    indici= range(0,18)
     for i in indici:
         coordsNew.append(coords[ordine[i]*3])
         coordsNew.append(coords[ordine[i]*3+1])
@@ -97,6 +97,10 @@ ROOT = os.path.dirname(os.path.abspath(__file__))+"/../"
 CURR_PATH = os.path.dirname(os.path.abspath(__file__))+"/githubs/Lable_video2.txt"
 sys.path.append(ROOT)
 
+ROOTOutput = ROOT + "data_proc/raw_skeletons/skeleton_res/"
+if not os.path.exists(ROOTOutput):
+    os.makedirs(ROOTOutput)
+
 filepath = ROOT+"dataset"
 
 f= open(CURR_PATH,"r")
@@ -115,6 +119,7 @@ for line in f1:
         azione=action
         nomeCart = getFolderName(line)
         filepathtemp = filepath + "/" + nomeCart
+        nameAction = lableList[action-1]
     else:
         iniziale,finale=getParametri(line)
         iniziale = iniziale *FPS
@@ -133,12 +138,11 @@ for line in f1:
                 ll = simplejson.load(f3)
                 coordsxyz, univocName = getXYZandName(ll)
             f3.close()   
-            nameAction = lableList[action-1]
             contenuto = "[["+ str(azione) + ", " + str(contaSection) + ", " + str(contaFrame) + ", " + "\"" + str(nameAction) + "\"" + ", \"" + str(univocName) + "\"" + str(coordsxyz) + "]]"
             # TODO scrivere stringa in un file
             while(len(nomeDaScrivere)<8):
                 nomeDaScrivere = "0" + nomeDaScrivere  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
-            nomeDaScrivere = ROOT + "data_proc/raw_skeletons/skeleton_res/"+ str(nomeDaScrivere) + ".txt"
+            nomeDaScrivere = ROOTOutput + str(nomeDaScrivere) + ".json"
             daScrivere = open(nomeDaScrivere,"w")
             daScrivere.write(contenuto)
             daScrivere.close()

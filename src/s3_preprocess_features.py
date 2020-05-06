@@ -33,7 +33,7 @@ cfg = cfg_all["s3_preprocess_features.py"]
 CLASSES = np.array(cfg_all["classes"])
 
 # Action recognition
-WINDOW_SIZE = int(cfg_all["features"]["window_size"]) # number of frames used to extract features.
+WINDOW_SIZE = int(cfg_all["features"]["window_size"]) # number of frames used to extract features.                                                                                  
 
 # Input and output
 SRC_ALL_SKELETONS_TXT = par(cfg["input"]["all_skeletons_txt"])
