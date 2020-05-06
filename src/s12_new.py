@@ -15,6 +15,7 @@ data = [7, 67, 7041, "stand", "stand_03-08-20-24-55-587/00055.jpg", 0.5670731707
 import sys
 import os
 import simplejson
+import numpy as np
 
 def getXYZandName(ll):                                            
     mylist=ll.get("bodies")  
@@ -140,15 +141,17 @@ for line in f1:
                 ll = simplejson.load(f3)
                 coordsxyz, univocName = getXYZandName(ll)
             f3.close()   
-            if (coordsxyz!= None):
-                contenuto = "[["+ str(azione) + ", " + str(contaSection) + ", " + str(contaFrame) + ", " + "\"" + str(nameAction) + "\"" + ", \"" + str(univocName) + "\"" + str(coordsxyz) + "]]"
-                # TODO scrivere stringa in un file
-                while(len(nomeDaScrivere)<8):
-                    nomeDaScrivere = "0" + nomeDaScrivere  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
-                nomeDaScrivere = ROOTOutput + str(nomeDaScrivere) + ".json"
-                daScrivere = open(nomeDaScrivere,"w")
-                daScrivere.write(contenuto)
-                daScrivere.close()
+            if (coordsxyz== None):
+                coordsxyz = ', 0'* (54) 
+                
+            contenuto = "[["+ str(azione) + ", " + str(contaSection) + ", " + str(contaFrame) + ", " + "\"" + str(nameAction) + "\"" + ", \"" + str(univocName) + "\"" + str(coordsxyz) + "]]"
+            
+            while(len(nomeDaScrivere)<8):
+                nomeDaScrivere = "0" + nomeDaScrivere  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
+            nomeDaScrivere = ROOTOutput + str(nomeDaScrivere) + ".json"
+            daScrivere = open(nomeDaScrivere,"w")
+            daScrivere.write(contenuto)
+            daScrivere.close()
             
             iniziale=iniziale+1
     print(filepathtemp)
