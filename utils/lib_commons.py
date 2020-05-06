@@ -26,7 +26,6 @@ from os import listdir
 from os.path import isfile, join
 import functools
 import simplejson
-from src.s12_new import getFrameSectionLable
 
 
 def int2str(num, idx_len):

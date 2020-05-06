@@ -44,10 +44,10 @@ def retrain_only_body_joints(skeleton):
     deal with the case when head joints are missing.
 
     '''
-    return skeleton.copy()[2:2+13*3]                           #MODIFIED
+    return skeleton.copy()[3:3+(13*3)]                           #MODIFIED
 
 
-TOTAL_JOINTS = 18                                               
+TOTAL_JOINTS = 13                                              
 NECK = 0
 L_ARMS = [1, 2, 3]
 R_ARMS = [4, 5, 6]
@@ -63,6 +63,7 @@ R_THIGH = 10
 
 STAND_SKEL_NORMED = retrain_only_body_joints(
     get_a_normalized_standing_skeleton())
+
 
 # -- Functions
 
@@ -89,6 +90,7 @@ def extract_multi_frame_features(
         if success:  # True if (data length > 5) and (skeleton has enough joints)
             X_new.append(features)
             Y_new.append(Y[i])
+        
 
         # Print
         if is_print and i % 1000 == 0:
@@ -98,6 +100,8 @@ def extract_multi_frame_features(
         print("")
     X_new = np.array(X_new)
     Y_new = np.array(Y_new)
+
+    
     return X_new, Y_new
 
 
@@ -105,7 +109,7 @@ class Math():
     ''' Some math operations '''
     @staticmethod
     def calc_dist(p1, p0):
-        return math.sqrt((p1[0]-p0[0])**2+(p1[1]-p0[1])**2)
+        return math.sqrt((p1[0]-p0[0])**2+(p1[1]-p0[1])**2+(p1[2]-p0[2])**2)
 
     @staticmethod
     def pi2pi(x):
@@ -147,7 +151,7 @@ def set_joint(x, idx, px, py, pz):                              #MODIFIED
 
 
 def check_joint(x, idx):
-    return x[2*idx] != NaN
+    return x[3*idx] != NaN                                            #MODIFIED
 
 
 class ProcFtr(object):
@@ -181,9 +185,9 @@ class ProcFtr(object):
         if y11 == NaN and y12 == NaN:  # Invalid data
             return 1.0
         if y11 == NaN:
-            x1, y1 = x12, y12
+            x1, y1, z1 = x12, y12, z12
         elif y12 == NaN:
-            x1, y1 = x11, y11
+            x1, y1, z1 = x11, y11, z11
         else:
             x1, y1, z1 = (x11 + x12) / 2, (y11 + y12) / 2, (z11 + z12) / 2              #MODIFIED
 
@@ -399,7 +403,7 @@ class FeatureGenerator(object):
         def get_px_py_px0_py0(x):                                          #MODIFIED
             px = x[0::3]  # list of x
             py = x[1::3]  # list of y
-            pz = x[2::3]  # list of y
+            pz = x[2::3]  # list of z
             px0, py0, pz0 = get_joint(x, NECK)  # neck
             return px, py, pz, px0, py0, pz0
         cur_px, cur_py, cur_pz, cur_px0, cur_py0, cur_pz0 = get_px_py_px0_py0(x)
@@ -414,9 +418,9 @@ class FeatureGenerator(object):
                 if res[i] == NaN:
                     if (i % 3 == 0):
                         res[i] = (cur_px0) + cur_height * STAND_SKEL_NORMED[i]
-                    elif (i % 3 == 1):
+                    if (i % 3 == 1):
                         res[i] = (cur_py0) + cur_height * STAND_SKEL_NORMED[i]
-                    else:
+                    if (i % 3 == 2):
                         res[i] = (cur_pz0) + cur_height * STAND_SKEL_NORMED[i]
             return res
 

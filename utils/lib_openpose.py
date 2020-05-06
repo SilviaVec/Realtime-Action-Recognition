@@ -145,7 +145,7 @@ class SkeletonDetector(object):
                 Default: (image_height / image_widht).
         Returns:
             skeletons {list of list}: a list of skeleton.
-                Each skeleton is also a list with a length of 36 (18 joints * 2 coord values).
+                Each skeleton is also a list with a length of 54 (18 joints * 3 coord values).
             scale_h {float}: The resultant height(y coordinate) range.
                 The x coordinate is between [0, 1].
                 The y coordinate is between [0, scale_h]
@@ -155,7 +155,7 @@ class SkeletonDetector(object):
         skeletons = []
         NaN = 0
         for human in humans:
-            skeleton = [NaN]*(18*2)
+            skeleton = [NaN]*(18*3)
             for i, body_part in human.body_parts.items(): # iterate dict
                 idx = body_part.part_idx
                 skeleton[2*idx]=body_part.x

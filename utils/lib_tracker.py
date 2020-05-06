@@ -79,8 +79,8 @@ class Tracker(object):
         return self._dict_id2skeleton
 
     def _get_neck(self, skeleton):
-        x, y = skeleton[2], skeleton[3]
-        return x, y
+        x, y, z = skeleton[3], skeleton[4], skeleton[5]
+        return x, y, z
 
     def _sort_skeletons_by_dist_to_center(self, skeletons):
         ''' Skeletons are sorted based on the distance
@@ -88,12 +88,12 @@ class Tracker(object):
         A skeleton near center will be processed first and be given a smaller human id.
         Here the center is defined as (0.5, 0.5), although it's not accurate due to h_scale.
         '''
-        def calc_dist(p1, p2): return (
-            (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**0.5
+        def calc_dist(p1, p2): return ((
+            (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2+ (p1[2] - p2[2])**2)**0.5)
 
         def cost(skeleton):
-            x1, y1 = self._get_neck(skeleton)
-            return calc_dist((x1, y1), (0.5, 0.5))  # dist to center
+            x1, y1, z1 = self._get_neck(skeleton)
+            return calc_dist((x1, y1, z1), (0.5, 0.5, 0.5))  # dist to center
 
         def cmp(a, b): return (a > b)-(a < b)
         def mycmp(sk1, sk2): return cmp(cost(sk1), cost(sk2))
@@ -110,7 +110,7 @@ class Tracker(object):
 
         #cost = lambda x1, x2: np.linalg.norm(x1-x2)
         def calc_dist(p1, p2): return (
-            (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**0.5
+            (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2+ (p1[2] - p2[2])**2)**0.5
 
         def cost(sk1, sk2):
 
