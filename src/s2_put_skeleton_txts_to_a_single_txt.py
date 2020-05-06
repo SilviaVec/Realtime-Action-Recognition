@@ -105,7 +105,6 @@ if __name__ == "__main__":
 
         # Read skeletons from a txt
         skeletons = read_skeletons_from_ith_txt(i)
-        print(len(skeletons))
         if not skeletons:  # If empty, discard this image.
             continue
         skeleton = skeletons[IDX_PERSON]
