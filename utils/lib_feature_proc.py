@@ -130,7 +130,10 @@ class Math():
     @staticmethod
     def calc_relative_angle_v2(p1, p0, base_angle):
         # compute rotation from {base_angle} to {p0->p1}
-        return Math.calc_relative_angle(p1[0], p1[1], p0[0], p0[1], base_angle)
+        angxy = Math.calc_relative_angle(p1[0], p1[1], p0[0], p0[1], base_angle)
+        angxz = Math.calc_relative_angle(p1[0], p1[2], p0[0], p0[2], base_angle)
+        angyz = Math.calc_relative_angle(p1[1], p1[2], p0[1], p0[2], base_angle)
+        return angxy, angxz, angyz
 
 
 # -- Functions for processing features
@@ -221,8 +224,8 @@ class ProcFtr(object):
                 self.i = 0
 
             def get_next_point(self):
-                p = [self.x[self.i], self.x[self.i+1]]
-                self.i += 2
+                p = [self.x[self.i], self.x[self.i+1], self.x[self.i+2]]
+                self.i += 3
                 return p
         tmp = JointPosExtractor(x)
 
@@ -249,14 +252,18 @@ class ProcFtr(object):
         class Get12Angles(object):
             def __init__(self):
                 self.j = 0
-                self.f_angles = np.zeros((12,))
+                self.f_anglesxy = np.zeros((12,))
+                self.f_anglesxz = np.zeros((12,))
+                self.f_anglesyz = np.zeros((12,))
                 self.x_lengths = np.zeros((12,))
 
             def set_next_angle_len(self, next_joint, base_joint, base_angle):
-                angle = Math.calc_relative_angle_v2(
+                angxy, angxz, angyz = Math.calc_relative_angle_v2(
                     next_joint, base_joint, base_angle)
                 dist = Math.calc_dist(next_joint, base_joint)
-                self.f_angles[self.j] = angle
+                self.f_anglesxy[self.j] = angxy
+                self.f_anglesxz[self.j] = angxz
+                self.f_anglesyz[self.j] = angyz
                 self.x_lengths[self.j] = dist
                 self.j += 1
 
@@ -279,7 +286,7 @@ class ProcFtr(object):
         tmp2.set_next_angle_len(plankle, plknee, PI/2)
 
         # Output
-        features_angles = tmp2.f_angles
+        features_angles = np.concatenate((tmp2.f_anglesxy, tmp2.f_anglesxz, tmp2.f_anglesyz))
         features_lens = tmp2.x_lengths
         return features_angles, features_lens
 
@@ -331,12 +338,12 @@ class FeatureGenerator(object):
                 # Add noise druing training stage to augment data
                 x = self._add_noises(x, self._noise_intensity)
             x = np.array(x)
-            # angles, lens = ProcFtr.joint_pos_2_angle_and_length(x) # deprecate
+            angles, lens = ProcFtr.joint_pos_2_angle_and_length(x) # deprecate
 
             # Push to deque
             self._x_deque.append(x)
-            # self._angles_deque.append(angles) # deprecate
-            # self._lens_deque.append(lens) # deprecate
+            self._angles_deque.append(angles) # deprecate
+            self._lens_deque.append(lens) # deprecate
 
             self._maintain_deque_size()
             self._pre_x = x.copy()
@@ -353,9 +360,9 @@ class FeatureGenerator(object):
 
                 # -- Get features of pose/angles/lens
                 f_poses = self._deque_features_to_1darray(xnorm_list)
-                # f_angles = self._deque_features_to_1darray(self._angles_deque) # deprecate
-                # f_lens = self._deque_features_to_1darray(
-                #     self._lens_deque) / mean_height # deprecate
+                f_angles = self._deque_features_to_1darray(self._angles_deque) # deprecate
+                f_lens = self._deque_features_to_1darray(
+                     self._lens_deque) / mean_height # deprecate
 
                 # -- Get features of motion
 
@@ -367,7 +374,7 @@ class FeatureGenerator(object):
                     xnorm_list, step=1)  # len = (t=(5-1)/step)*12*2 = 96
 
                 # -- Output
-                features = np.concatenate((f_poses, f_v_joints, f_v_center))
+                features = np.concatenate((f_poses, f_v_joints, f_v_center, f_angles, f_lens))
                 return True, features.copy()
 
     def _maintain_deque_size(self):
@@ -381,8 +388,8 @@ class FeatureGenerator(object):
     def _compute_v_center(self, x_deque, step):
         vel = []
         for i in range(0, len(x_deque) - step, step):
-            dxdy = x_deque[i+step][0:2] - x_deque[i][0:2]
-            vel += dxdy.tolist()
+            dxdydz = x_deque[i+step][0:3] - x_deque[i][0:3]
+            vel += dxdydz.tolist()
         return np.array(vel)
 
     def _compute_v_all_joints(self, xnorm_list, step):
@@ -435,7 +442,7 @@ class FeatureGenerator(object):
 
         cur_px[bad_idxs] = cur_px0 + (pre_px[bad_idxs] - pre_px0) * scale
         cur_py[bad_idxs] = cur_py0 + (pre_py[bad_idxs] - pre_py0) * scale
-        cur_py[bad_idxs] = cur_pz0 + (pre_pz[bad_idxs] - pre_pz0) * scale
+        cur_pz[bad_idxs] = cur_pz0 + (pre_pz[bad_idxs] - pre_pz0) * scale
         res[::3] = cur_px
         res[1::3] = cur_py
         res[2::3] = cur_pz
