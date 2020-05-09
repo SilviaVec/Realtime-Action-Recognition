@@ -17,15 +17,29 @@ import os
 import simplejson
 import numpy as np
 
-def getXYZandName(ll):                                            
+def getXYZandName(ll, person_id):                                            
     mylist=ll.get("bodies")  
     if (len(mylist) < 1):
         return None, None
     listToStr = ' '.join([str(elem) for elem in mylist])                        # aggiunto
 
-    x = listToStr.split("[")
-    x = x[1].split("]")
-    coords=x[0].split(",")
+    coords = []
+    check = 0
+
+    x = listToStr.split("{")
+    rng = range(1, len(x))
+    for i in rng:
+        x_sp = x[i].split(":")
+        person_id_orig = x_sp[1].split(",")
+        person_id_orig = person_id_orig[0]
+        if(person_id_orig == person_id):
+            x_coord = x_sp[2].split("[")
+            x_coord = x_coord[1].split("]")
+            coords=x_coord[0].split(",")
+            check = 1
+        if(check ==0):
+            return None, None
+
     stringaOut =''
 
     zerotolen = range(0,len(coords))
@@ -92,12 +106,13 @@ def getParametri(riga):
 def getFolderName(riga):
     riga=riga.split(",")
     b = riga[1]
+    c = riga[2]
     b = b.replace(' ', '')
-    return b
+    return b, c
 
 
 ROOT = os.path.dirname(os.path.abspath(__file__))+"/../"
-CURR_PATH = os.path.dirname(os.path.abspath(__file__))+"/githubs/Lable_video2.txt"
+CURR_PATH = os.path.dirname(os.path.abspath(__file__))+"/githubs/Lable_video.txt"
 sys.path.append(ROOT)
 
 ROOTOutput = ROOT + "data_proc/raw_skeletons/skeleton_res/"
@@ -112,7 +127,7 @@ f1 = f.read().splitlines()
 
 contaSection=0
 contaFrame =0
-FPS = 25
+FPS = 30
 
 lableList = ['jump', 'kick', 'punch', 'run', 'sit', 'squat', 'stand', 'walk', 'wave']
 
@@ -120,7 +135,7 @@ for line in f1:
     action = CheckType(line)
     if action != 0:
         azione=action
-        nomeCart = getFolderName(line)
+        nomeCart, person_id = getFolderName(line)
         filepathtemp = filepath + "/" + nomeCart
         nameAction = lableList[action-1]
     else:
@@ -139,7 +154,7 @@ for line in f1:
             fileDaAprire = filepathtemp + "/hdPose3d_stage1_coco19/body3DScene_" + name +".json"
             with open(fileDaAprire, 'r') as f3:   
                 ll = simplejson.load(f3)
-                coordsxyz, univocName = getXYZandName(ll)
+                coordsxyz, univocName = getXYZandName(ll, person_id)
             f3.close()   
             if (coordsxyz== None):
                 coordsxyz = ', 0'* (54) 
