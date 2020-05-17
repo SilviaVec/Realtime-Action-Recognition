@@ -127,7 +127,7 @@ class ClassifierOnlineTest(object):
             self.model trained by `class ClassifierOfflineTrain`. 
     '''
 
-    def __init__(self, model_path, action_labels, window_size, human_id=0):
+    def __init__(self, model_path, action_labels, window_size, human_id):
 
         # -- Settings
         self.human_id = human_id
@@ -153,6 +153,7 @@ class ClassifierOnlineTest(object):
         LABEL_UNKNOWN = ""
         is_features_good, features = self.feature_generator.add_cur_skeleton(
             skeleton)
+        print(is_features_good)                                                  # PRINT
 
         if is_features_good:
             # convert to 2d array
@@ -168,6 +169,7 @@ class ClassifierOnlineTest(object):
                 prediced_label = self.action_labels[predicted_idx]
         else:
             prediced_label = LABEL_UNKNOWN
+        
         return prediced_label
 
     def smooth_scores(self, curr_scores):
@@ -193,7 +195,7 @@ class ClassifierOnlineTest(object):
                 score_mul *= score
             return score_mul
 
-    def draw_scores_onto_image(self, img_disp):
+    '''def draw_scores_onto_image(self, img_disp):
         if self.scores is None:
             return
 
@@ -213,4 +215,4 @@ class ClassifierOnlineTest(object):
 
             cv2.putText(img_disp, text=s, org=(TXT_X, TXT_Y),
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=FONT_SIZE,
-                        color=(0, 0, int(COLOR_INTENSITY)), thickness=2)
+                        color=(0, 0, int(COLOR_INTENSITY)), thickness=2)'''
