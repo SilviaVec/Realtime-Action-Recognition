@@ -151,9 +151,9 @@ class ClassifierOnlineTest(object):
     def predict(self, skeleton):
         ''' Predict the class (string) of the input raw skeleton '''
         LABEL_UNKNOWN = ""
-        is_features_good, features = self.feature_generator.add_cur_skeleton(
-            skeleton)
-        print(is_features_good)                                                  # PRINT
+        is_features_good, features = self.feature_generator.add_cur_skeleton(skeleton)
+
+        print(is_features_good)
 
         if is_features_good:
             # convert to 2d array

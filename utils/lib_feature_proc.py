@@ -44,7 +44,11 @@ def retrain_only_body_joints(skeleton):
     deal with the case when head joints are missing.
 
     '''
-    return skeleton.copy()[3:3+(13*3)]                           #MODIFIED
+
+    if type(skeleton) != np.ndarray:
+        skeleton = np.asarray(skeleton[0])
+    
+    return skeleton.copy()[3:3+13*3]                           #MODIFIED
 
 
 TOTAL_JOINTS = 13                                              
@@ -325,6 +329,7 @@ class FeatureGenerator(object):
 
         x = retrain_only_body_joints(skeleton)
 
+
         if not ProcFtr.has_neck_and_thigh(x):
             self.reset()
             return False, None
@@ -341,7 +346,7 @@ class FeatureGenerator(object):
             angles, lens = ProcFtr.joint_pos_2_angle_and_length(x) # deprecate
 
             # Push to deque
-            self._x_deque.append(x)
+            self._x_deque.append(x)                                            #QUESTI SONO 0
             self._angles_deque.append(angles) # deprecate
             self._lens_deque.append(lens) # deprecate
 
@@ -349,7 +354,7 @@ class FeatureGenerator(object):
             self._pre_x = x.copy()
 
             # -- Extract features
-            if len(self._x_deque) < self._window_size:
+            if len(self._x_deque) < self._window_size:                        #ENTRA IN QUESTO IF
                 return False, None
             else:
                 # -- Normalize all 1~t features
