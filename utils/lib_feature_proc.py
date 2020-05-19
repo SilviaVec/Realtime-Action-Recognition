@@ -346,7 +346,8 @@ class FeatureGenerator(object):
             angles, lens = ProcFtr.joint_pos_2_angle_and_length(x) # deprecate
 
             # Push to deque
-            self._x_deque.append(x)                                            #QUESTI SONO 0
+            self._x_deque.append(x)     
+            # print((self._x_deque)) 
             self._angles_deque.append(angles) # deprecate
             self._lens_deque.append(lens) # deprecate
 
@@ -354,7 +355,7 @@ class FeatureGenerator(object):
             self._pre_x = x.copy()
 
             # -- Extract features
-            if len(self._x_deque) < self._window_size:                        #ENTRA IN QUESTO IF
+            if len(self._x_deque) < self._window_size:              
                 return False, None
             else:
                 # -- Normalize all 1~t features

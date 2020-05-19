@@ -153,8 +153,6 @@ class ClassifierOnlineTest(object):
         LABEL_UNKNOWN = ""
         is_features_good, features = self.feature_generator.add_cur_skeleton(skeleton)
 
-        print(is_features_good)
-
         if is_features_good:
             # convert to 2d array
             features = features.reshape(-1, features.shape[0])
@@ -186,7 +184,7 @@ class ClassifierOnlineTest(object):
             for score in self.scores_hist:
                 score_sums += score
             score_sums /= len(self.scores_hist)
-            print("\nMean score:\n", score_sums)
+            # print("\nMean score:\n", score_sums)
             return score_sums
 
         else:  # Use multiply
