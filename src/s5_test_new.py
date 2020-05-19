@@ -16,6 +16,7 @@ if True:  # Include project path
 
     from utils.lib_classifier import ClassifierOnlineTest
     from utils.lib_skeletons_io import load_skeleton_data
+    import utils.lib_commons as lib_commons
 
     
 def remove_skeletons_with_few_joints(skeletons):                              
@@ -86,9 +87,9 @@ def getXYZandName(ll, person_id = ' 0'):
     return coordsNew, univocName
 
 
+cfg_all = lib_commons.read_yaml(ROOT + "config/config.yaml")
 
-
-WINDOW_SIZE = 5
+WINDOW_SIZE = int(cfg_all["features"]["window_size"])
 ROOT = os.path.dirname(os.path.abspath(__file__))+"/../"
 sys.path.append(ROOT)
 
