@@ -4,6 +4,7 @@ import simplejson
 import numpy as np
 import functools
 import pickle
+import csv
 
 
 if True:  # Include project path
@@ -87,7 +88,7 @@ def getXYZandName(ll, person_id = ' 0'):
 
 
 
-WINDOW_SIZE = 0.5
+WINDOW_SIZE = 5
 ROOT = os.path.dirname(os.path.abspath(__file__))+"/../"
 sys.path.append(ROOT)
 
@@ -101,12 +102,14 @@ classes = ['sit', 'stand', 'walk']
 filepath = ROOT+"data_test/"
 
 
-iniziale = 809
-finale = 881
+iniziale = 231
+finale = 316
 contaFrame = 0
 dict_id2skeleton = {}
-
+id2label = {}
 finale_contenuto = ""
+
+create_classifier = ClassifierOnlineTest(SRC_MODEL_PATH, classes, WINDOW_SIZE, 0)
 
 while (iniziale < finale+1):
     name=str(iniziale)
@@ -126,11 +129,12 @@ while (iniziale < finale+1):
 
     coordsxyz_np = remove_skeletons_with_few_joints(coordsxyz_np)
 
-    create_classifier = ClassifierOnlineTest(SRC_MODEL_PATH, classes, WINDOW_SIZE, 0)
-    create_classifier.reset()
-    dict_id2skeleton = {1: coordsxyz_np}
     
-    id2label = create_classifier.predict(coordsxyz_np) 
+    dict_id2skeleton = {0: coordsxyz_np}
+
+
+    for id, skeleton in dict_id2skeleton.items():     
+        id2label[contaFrame] = create_classifier.predict(skeleton)
 
     stringaOut =''
     finale_contenuto=''
@@ -153,8 +157,15 @@ while (iniziale < finale+1):
     iniziale=iniziale+1
 
 
+ 
+actionPath = ROOTOutput + '/action.csv'
 
 
+with open(actionPath, 'w') as f:
+    for key in id2label.keys(): 
+        f.write("%s, %s\n" % (key, id2label[key]))
+
+print(type(id2label))
 
 
 
