@@ -102,9 +102,17 @@ SRC_MODEL_PATH = ROOT + "/model/trained_classifier.pickle"
 classes = ['sit', 'stand', 'walk']
 filepath = ROOT+"data_test/"
 
+test_file = []
 
-iniziale = 231
-finale = 316
+
+# r=root, d=directories, f = files
+for r, d, f in os.walk(filepath):
+    for file in f:
+        if file.endswith(".json"):
+            # print(os.path.join(r, file))
+            test_file.append(os.path.join(r, file))
+
+
 contaFrame = 0
 dict_id2skeleton = {}
 id2label = {}
@@ -112,13 +120,10 @@ finale_contenuto = ""
 
 create_classifier = ClassifierOnlineTest(SRC_MODEL_PATH, classes, WINDOW_SIZE, 0)
 
-while (iniziale < finale+1):
-    name=str(iniziale)
+while (contaFrame < len(test_file)):
+    fileDaAprire=str(test_file[contaFrame])
     nomeDaScrivere = str(contaFrame) 
     contaFrame = contaFrame+1         
-    while(len(name)<8):
-        name = "0" + name  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
-    fileDaAprire = filepath + "body3DScene_" + name +".json"
     with open(fileDaAprire, 'r') as f3:   
         ll = simplejson.load(f3)
         coordsxyz, univocName = getXYZandName(ll)
@@ -149,13 +154,11 @@ while (iniziale < finale+1):
     else:
         finale_contenuto = finale_contenuto + ", " + contenuto 
 
-    nomeDaScrivere = ROOTOutput + "skeleton_for_test" + name + ".txt"
+    '''nomeDaScrivere = ROOTOutput + "skeleton_for_test" + contaFrame + ".txt"
 
     daScrivere = open(nomeDaScrivere,"w")
     daScrivere.write(finale_contenuto)
-    daScrivere.close()
-
-    iniziale=iniziale+1
+    daScrivere.close()'''
 
 
  
@@ -166,7 +169,7 @@ with open(actionPath, 'w') as f:
     for key in id2label.keys(): 
         f.write("%s, %s\n" % (key, id2label[key]))
 
-print(type(id2label))
+print((id2label))
 
 
 
