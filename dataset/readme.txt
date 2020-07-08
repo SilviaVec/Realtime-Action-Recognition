@@ -6,6 +6,9 @@ Insert here the folder (Download it from panoptic dataset):
 160906_band4
 160422_haggling1
 
+Insert "having meal" from:  http://pr.cs.cornell.edu/humanactivities/data.php
+
+
 
 
 
