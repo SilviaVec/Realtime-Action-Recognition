@@ -63,11 +63,53 @@ def getXYZandName(ll, person_id):
         stringaOut = stringaOut + ", " + (str(element))
 
     univocName=ll.get("univTime")
+    print (stringaOut)
     return stringaOut, univocName
 
+def getXYZandName_lifting(f1, person_id):                                            
+    b = ""
+    i = 0
+    for line in f1:
+        b=b+line
+    temp = b.split("[")
+    x = temp[3]
+    x = x.replace(']', '')
+    x = x.strip()
+    y = temp[4]
+    y = y.replace(']', '')
+    y = y.strip()
+    z = temp[5]
+    z = z.replace(']', '')
+    z = z.strip()
 
+    xvect = x.split(" ")
+    while ('' in xvect):
+        xvect.remove('')
+
+    yvect = y.split(" ")
+    while ('' in yvect):
+        yvect.remove('')
+
+    zvect = z.split(" ")
+    while ('' in zvect):
+        zvect.remove('')
+
+
+    coordsNew = []
+    ordine = [9 , 10 ,10 , 10 , 10 , 11, 14, 12 , 15 ,13 ,16 , 1 , 4 , 2 , 5, 3 ,6]
+    indici = range(0, 17)
+    for i in indici:
+        coordsNew.append(xvect[ordine[i]])
+        coordsNew.append(yvect[ordine[i]])
+        coordsNew.append(zvect[ordine[i]])
+    stringaOut = ''
+    for element in coordsNew:
+        stringaOut = stringaOut + ", " + (str(element))
+    univocName="NaN"
+    return stringaOut, univocName
+    
 def CheckType(stringa):
-    if 'jump' in stringa:
+    '''if 'jump' in stringa:
         return(1)
 
     if 'kick' in stringa: 
@@ -92,7 +134,17 @@ def CheckType(stringa):
         return(8)
         
     if 'wave' in stringa: 
-        return(9)
+        return(9)'''
+    if 'sit' in stringa: 
+        return(1)
+        
+    if 'stand' in stringa: 
+        return(2)
+        
+    if 'walk' in stringa: 
+        return(3)
+    if 'meal' in stringa: 
+        return(4)
     return 0
 
 
@@ -123,13 +175,14 @@ filepath = ROOT+"dataset"
 
 f= open(CURR_PATH,"r")
 
+
 f1 = f.read().splitlines()
 
 contaSection=0
 contaFrame =0
 FPS = 30
 
-lableList = ['jump', 'kick', 'punch', 'run', 'sit', 'squat', 'stand', 'walk', 'wave']
+lableList = ['sit', 'stand', 'walk', 'meal']
 
 for line in f1:
     action = CheckType(line)
@@ -140,21 +193,30 @@ for line in f1:
         nameAction = lableList[action-1]
     else:
         iniziale,finale=getParametri(line)
-        iniziale = iniziale *FPS
-        finale = finale *FPS
+        if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1')
+            iniziale = iniziale *FPS
+            finale = finale *FPS
         contaSection=contaSection+1
 
         # count = INIZIALE    #QUI LO FACCIO ANDARE BENE PER I MIEI DATI
         while (iniziale < finale+1):
             name=str(iniziale)
             nomeDaScrivere = str(contaFrame)
-            contaFrame = contaFrame+1           
-            while(len(name)<8):
-                name = "0" + name  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
-            fileDaAprire = filepathtemp + "/hdPose3d_stage1_coco19/body3DScene_" + name +".json"
+            contaFrame = contaFrame+1   
+            if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1')        
+                while(len(name)<8):
+                    name = "0" + name  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
+                fileDaAprire = filepathtemp + "/hdPose3d_stage1_coco19/body3DScene_" + name +".json"
+            else:
+                fileDaAprire = filepathtemp + name +".json"
             with open(fileDaAprire, 'r') as f3:   
-                ll = simplejson.load(f3)
-                coordsxyz, univocName = getXYZandName(ll, person_id)
+                if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1')
+                    ll = simplejson.load(f3)
+                    coordsxyz, univocName = getXYZandName(ll, person_id)
+                else:
+                    ll = f3
+                    univocName = str(filepathtemp) + '_' + name
+                    coordsxyz = getXYZandName_lifting(ll, person_id)
             f3.close()   
             if (coordsxyz== None):
                 coordsxyz = ', 0'* (54) 
