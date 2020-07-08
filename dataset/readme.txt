@@ -6,7 +6,7 @@ Insert here the folder (Download it from panoptic dataset):
 160906_band4
 160422_haggling1
 
-Insert "having meal" from:  http://pr.cs.cornell.edu/humanactivities/data.php
+Insert "having meal" from:  http://pr.cs.cornell.edu/humanactivities/data.php (extract 3D points using lifting from the deep https://github.com/DenisTome/Lifting-from-the-Deep-release)
 
 
 
