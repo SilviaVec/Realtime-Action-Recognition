@@ -74,12 +74,18 @@ def getXYZandName_lifting(f1, person_id):
     temp = b.split("[")
     x = temp[3]
     x = x.replace(']', '')
+    x = x.replace('\n', '')
+    x = x.replace('(', '')
     x = x.strip()
     y = temp[4]
     y = y.replace(']', '')
+    y = y.replace('\n', '')
+    y = y.replace('(', '')
     y = y.strip()
     z = temp[5]
     z = z.replace(']', '')
+    z = z.replace('\n', '')
+    z = z.replace('(', '')
     z = z.strip()
 
     xvect = x.split(" ")
@@ -96,8 +102,8 @@ def getXYZandName_lifting(f1, person_id):
 
 
     coordsNew = []
-    ordine = [9 , 10 ,10 , 10 , 10 , 11, 14, 12 , 15 ,13 ,16 , 1 , 4 , 2 , 5, 3 ,6]
-    indici = range(0, 17)
+    ordine = [9 , 8 ,14 , 15 , 16 , 11, 12, 13 , 4 ,5 ,6 , 1 , 2 , 3 , 10, 10 ,10, 10]
+    indici = range(0, 18)
     for i in indici:
         coordsNew.append(xvect[ordine[i]])
         coordsNew.append(yvect[ordine[i]])
@@ -105,8 +111,7 @@ def getXYZandName_lifting(f1, person_id):
     stringaOut = ''
     for element in coordsNew:
         stringaOut = stringaOut + ", " + (str(element))
-    univocName="NaN"
-    return stringaOut, univocName
+    return stringaOut
     
 def CheckType(stringa):
     '''if 'jump' in stringa:
@@ -181,6 +186,7 @@ f1 = f.read().splitlines()
 contaSection=0
 contaFrame =0
 FPS = 30
+error = 0
 
 lableList = ['sit', 'stand', 'walk', 'meal']
 
@@ -201,7 +207,7 @@ for line in f1:
         # count = INIZIALE    #QUI LO FACCIO ANDARE BENE PER I MIEI DATI
         while (iniziale < finale+1):
             name=str(iniziale)
-            nomeDaScrivere = str(contaFrame)
+            nomeDaScrivere = str(contaFrame - error)
             contaFrame = contaFrame+1   
             if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1'):      
                 while(len(name)<8):
@@ -233,7 +239,8 @@ for line in f1:
             
             except IOError:
                 print ("Could not open file!")
-                print (name)
+                print (name, error)
+                error = error +1
 
             iniziale=iniziale+1
     print(filepathtemp)
