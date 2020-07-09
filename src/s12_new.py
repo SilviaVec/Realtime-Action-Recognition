@@ -63,7 +63,7 @@ def getXYZandName(ll, person_id):
         stringaOut = stringaOut + ", " + (str(element))
 
     univocName=ll.get("univTime")
-    print (stringaOut)
+    # print (stringaOut)
     return stringaOut, univocName
 
 def getXYZandName_lifting(f1, person_id):                                            
@@ -193,7 +193,7 @@ for line in f1:
         nameAction = lableList[action-1]
     else:
         iniziale,finale=getParametri(line)
-        if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1')
+        if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1'):
             iniziale = iniziale *FPS
             finale = finale *FPS
         contaSection=contaSection+1
@@ -203,33 +203,38 @@ for line in f1:
             name=str(iniziale)
             nomeDaScrivere = str(contaFrame)
             contaFrame = contaFrame+1   
-            if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1')        
+            if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1'):      
                 while(len(name)<8):
                     name = "0" + name  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
                 fileDaAprire = filepathtemp + "/hdPose3d_stage1_coco19/body3DScene_" + name +".json"
             else:
-                fileDaAprire = filepathtemp + name +".json"
-            with open(fileDaAprire, 'r') as f3:   
-                if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1')
-                    ll = simplejson.load(f3)
-                    coordsxyz, univocName = getXYZandName(ll, person_id)
-                else:
-                    ll = f3
-                    univocName = str(filepathtemp) + '_' + name
-                    coordsxyz = getXYZandName_lifting(ll, person_id)
-            f3.close()   
-            if (coordsxyz== None):
-                coordsxyz = ', 0'* (54) 
+                fileDaAprire = filepathtemp + "/" + name +".txt"
+            try:
+                with open(fileDaAprire, 'r') as f3:   
+                    if (nomeCart == '160422_haggling1' or nomeCart == '160906_band4' or nomeCart == '161029_sports1' or nomeCart == '170915_office1' or nomeCart == '171204_pose1'):
+                        ll = simplejson.load(f3)
+                        coordsxyz, univocName = getXYZandName(ll, person_id)
+                    else:
+                        ll = f3
+                        univocName = str(filepathtemp) + '_' + name
+                        coordsxyz = getXYZandName_lifting(ll, person_id)
+                f3.close()   
+                if (coordsxyz== None):
+                    coordsxyz = ', 0'* (54) 
+                    
+                contenuto = "[["+ str(azione) + ", " + str(contaSection) + ", " + str(contaFrame) + ", " + "\"" + str(nameAction) + "\"" + ", \"" + str(univocName) + "\"" + str(coordsxyz) + "]]"
                 
-            contenuto = "[["+ str(azione) + ", " + str(contaSection) + ", " + str(contaFrame) + ", " + "\"" + str(nameAction) + "\"" + ", \"" + str(univocName) + "\"" + str(coordsxyz) + "]]"
+                while(len(nomeDaScrivere)<8):
+                    nomeDaScrivere = "0" + nomeDaScrivere  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
+                nomeDaScrivere = ROOTOutput + str(nomeDaScrivere) + ".json"
+                daScrivere = open(nomeDaScrivere,"w")
+                daScrivere.write(contenuto)
+                daScrivere.close()
             
-            while(len(nomeDaScrivere)<8):
-                nomeDaScrivere = "0" + nomeDaScrivere  #SERVE PERCHE LE FOTO SI CHIAMANO 00076
-            nomeDaScrivere = ROOTOutput + str(nomeDaScrivere) + ".json"
-            daScrivere = open(nomeDaScrivere,"w")
-            daScrivere.write(contenuto)
-            daScrivere.close()
-            
+            except IOError:
+                print ("Could not open file!")
+                print (name)
+
             iniziale=iniziale+1
     print(filepathtemp)
 
