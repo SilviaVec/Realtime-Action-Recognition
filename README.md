@@ -56,41 +56,19 @@ For more details about how the features are extracted, please see my [report](ht
 
 First, Python >= 3.6.
 
-I used the OpenPose from this Github: [tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation). First download it:
+we used the "Lifting from the Deep" from this Github: [Lifting-from-the-Deep](https://github.com/DenisTome/Lifting-from-the-Deep-release). First download it:
 
 ```
 export MyRoot=$PWD
 cd src/githubs  
-git clone https://github.com/ildoonet/tf-pose-estimation  
+git clone https://github.com/DenisTome/Lifting-from-the-Deep-release  
 ```
+Follow its tutorial.
 
-Follow its tutorial [here](https://github.com/ildoonet/tf-pose-estimation#install-1) to download the "cmu" model. As for the "mobilenet_thin", it's already inside the folder.  
+Please be sure that simplejson is installed. if not:
 
 ```
-$ cd tf-pose-estimation/models/graph/cmu  
-$ bash download.sh  
-```
-
-Then install dependencies. I listed my installation steps as bellow:
-```
-conda create -n tf tensorflow-gpu
-conda activate tf
-
-cd $MyRoot
-pip install -r requirements.txt
-pip install jupyter tqdm
-pip install tensorflow-gpu==1.13.1
-sudo apt install swig
-pip install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
-
-cd $MyRoot/src/githubs/tf-pose-estimation/tf_pose/pafprocess
-swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
-```
-
-Make sure you can successfully run its demo examples:
-```
-cd $MyRoot/src/githubs/tf-pose-estimation
-python run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
+pip install simplejson
 ```
 
 # 3. Program structure
@@ -190,8 +168,6 @@ The script [src/s5_test_new.py](src/s5_test_new.py) is for doing real-time actio
 
 
 The classes are set in [config/config.yaml](config/config.yaml) by the key `classes`.
-
-The supported input includes **video file**, **a folder of images**, and **web camera**, which is set by the command line arguments `--data_type` and `--data_path`.
 
 The trained model is set by `--model_path`, e.g.:[model/trained_classifier.pickle](model/trained_classifier.pickle).
 
