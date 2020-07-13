@@ -27,7 +27,7 @@
 # 1. Algorithm
 
 
-we collected videos of 4 Types of actions: `['stand', 'walk', 'sit', 'meal']`. 
+We collected videos of 4 Types of actions: `['stand', 'walk', 'sit', 'meal']`. 
 We used the following dataset for training:  
 *  CMU Panoptic Dataset (http://domedb.perception.cs.cmu.edu/)  
 *  CAD-120 (http://pr.cs.cornell.edu/humanactivities/data.php) (3D point extracted using Lifting from the Deep: https://github.com/DenisTome/Lifting-from-the-Deep-release)   
