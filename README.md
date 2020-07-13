@@ -238,14 +238,12 @@ Then, follow the following steps to do the training:
 * Depend on your need, you may change parameters in [config/config.yaml](config/config.yaml).
 * Finally, run the following scripts one by one:
     ``` bash
-    python src/s1_get_skeletons_from_training_imgs.py
+    python src/s12_new.py
     python src/s2_put_skeleton_txts_to_a_single_txt.py 
     python src/s3_preprocess_features.py
     python src/s4_train.py 
+    python src/s5_test_new.py
     ```
-
-By default, the intermediate data are saved to [data_proc/](data_prco/), and the model is saved to [model/trained_classifier.pickle](model/trained_classifier.pickle).  
-After training is done, you can run the inference script `src/s5_test.py` as described in Section `4. How to run: Inference`.
 
 # 7. Result and Performance
 
