@@ -194,28 +194,28 @@ In [src/s5_test_new.py](src/s5_test_new.py) at line 321 modufy the video name.
 
 
 ## Download my data
-Follow the instructions in [data/download_link.md](data/download_link.md) to download the data. Or, you can create your own. The data and labelling format are described below.
+Follow the instructions in [dataset/readme.txt](dataset/readme.txt) to download the data. Or, you can create your own. The data and labelling format are described below.
 
 ## Data format
 
-Each data subfolder (e.g. `data/source_images3/jump_03-02-12-34-01-795/`) contains images named as `00001.jpg`, `00002.jpg`, etc.   
+Each data subfolder (e.g. `dataset/.../jump_03-02-12-34-01-795/`) contains images named as `00001.jpg`, `00002.jpg`, etc.   
 The naming format of each image is defined in [config/config.yaml](config/config.yaml) by the sentence: `image_filename_format: "{:05d}.jpg"`.
 
-The images to be used as training data and their label are configured by this txt file: [data/source_images3/valid_images.txt](data/source_images3/valid_images.txt).  
+The images to be used as training data and their label are configured by this txt file: [src/githubs/Lable_video.txt](src/githubs/Lable_video.txt).  
 A snapshot of this txt file is shown below:
 ```
-jump_03-02-12-34-01-795
-52 59
-72 79
-
-kick_03-02-12-36-05-185
-54 62
+stand, 171204_pose1, 0
+12 54
+63 149
+stand, 171204_pose1, 1
+164 186
+221 296
 ```
 In each paragraph,  
 the 1st line is the data folder name, which should start with `"${class_name}_"`. 
 The 2nd and following lines specify the `staring index` and `ending index` of the video that corresponds to that class.
 
-Let's take the 1st paragraph of the above snapshot as an example: `jump` is the class, and the frames `52~59` & `72~79` of the video are used for training.
+Let's take the 1st paragraph of the above snapshot as an example: `stand` is the class, and the frames `12~54` & `63~149` of the video are used for training.
 
 ## Classes
 
