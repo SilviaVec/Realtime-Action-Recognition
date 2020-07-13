@@ -173,8 +173,8 @@ output
 Also, the video result is saved in the main folder.
 
 Put your data in a folder in "data_test"
-In [src/s5_test_new.py](src/s5_test_new.py) at line 178, 152 modufy the folder name.
-In [src/s5_test_new.py](src/s5_test_new.py) at line 321 modufy the video name.
+In [src/s5_test_new.py](src/s5_test_new.py) at line 178, 152 modify the folder name.
+In [src/s5_test_new.py](src/s5_test_new.py) at line 321 modify the video name.
 
 
 
