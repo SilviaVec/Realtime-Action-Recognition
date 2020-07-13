@@ -242,9 +242,9 @@ Then, follow the following steps to do the training:
 # 7. Result and Performance
 
 The system used do not give excelent results.  
-The main problem is the dataset used. This dataset in fact is not consistent. Except for panoptic which have 3D skeleton's information for the other part of the dataset we start from a 2D image and we obtain a 3D skeleton: this means that the data are not always precised.  
+The main problem is given by the dataset used. This dataset in fact is not consistent. Except for panoptic which have 3D skeleton's information for the remaining part of the dataset we started from a 2D image and we obtained a 3D skeleton: this means that the data are not always precised.  
 We have found difficulties to obtain the data we needed. In our dataset the action "walk" is less present with the respect to the other actions. This also might be a problem.  
-Finally we don't take advantage of the fact that inputs frames are correlated over time. We used a simple classifier but it is better used a rnn (for example lstm) which could increase the frame correlation capabilities in succession.  
+Finally we don't take advantage of the fact that inputs frames are correlated over time. We used a simple classifier but it is better used a RNN (for example LSTM) which could increase consecutive frame correlation capabilities.  
   
 How to improve:  
 Improve and expand the dataset and use a rnn.
