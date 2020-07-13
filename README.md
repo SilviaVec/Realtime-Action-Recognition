@@ -186,7 +186,7 @@ For how to run the main scripts, please see the Section `4. How to run: Inferenc
 # 4. How to run: Inference
 
 ## Introduction
-The script [src/s5_test.py](src/s5_test.py) is for doing real-time action recognition. 
+The script [src/s5_test_new.py](src/s5_test_new.py) is for doing real-time action recognition. 
 
 
 The classes are set in [config/config.yaml](config/config.yaml) by the key `classes`.
