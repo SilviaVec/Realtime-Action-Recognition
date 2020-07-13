@@ -1,0 +1,131 @@
+stand, 171204_pose1, 0
+12 54
+63 149
+stand, 171204_pose1, 1
+164 186
+221 296
+stand, 171204_pose1, 2
+326 346
+376 456
+stand, 171204_pose1, 4
+476 496
+526 548
+stand, 171204_pose1, 3
+636 656
+691 728
+stand, 171204_pose1, 4
+792 814
+846 918
+walk, 171204_pose1, 0
+55 59
+walk, 171204_pose1, 1
+206 212
+walk, 171204_pose1, 4
+516 521
+walk, 171204_pose1, 3
+676 681
+walk, 171204_pose1, 4
+833 838
+stand, 160422_haggling1, 0
+17 75
+stand, 160422_haggling1, 1
+17 75
+stand, 160422_haggling1, 2
+17 75
+stand, 160422_haggling1, 3
+100 145
+stand, 160422_haggling1, 4
+100 145
+stand, 160422_haggling1, 5
+100 145
+stand, 160422_haggling1, 6
+178 225
+stand, 160422_haggling1, 7
+178 225
+stand, 160422_haggling1, 8
+178 225
+stand, 160422_haggling1, 9
+252 292
+stand, 160422_haggling1, 10
+252 292
+stand, 160422_haggling1, 11
+252 292
+stand, 160422_haggling1, 12
+312 358
+stand, 160422_haggling1, 13
+312 358
+stand, 160422_haggling1, 14
+312 358
+stand, 160422_haggling1, 15
+385 430
+stand, 160422_haggling1, 16
+385 430
+stand, 160422_haggling1, 17
+385 430
+sit, 160906_band4, 0
+7 332
+sit, 160906_band4, 1
+7 332
+sit, 160906_band4, 2
+7 332
+walk, 161029_sports1, 1
+9 12
+22 24
+25 27
+walk, 161029_sports1, 2
+35 39
+53 55
+walk, 161029_sports1, 3
+56 59
+86 89
+walk, 161029_sports1, 5
+92 95
+119 161
+walk, 161029_sports1, 8
+164 172
+177 179
+walk, 161029_sports1, 9
+187 190
+walk,161029_sports1, 10
+221 224
+walk, 161029_sports1, 11
+264 269
+stand, 170915_office1, 1
+17 20
+81 90
+133 180
+sit, 170915_office1, 1
+22 65
+102 126
+walk, 170915_office1, 1
+66 70
+75 81
+91 101
+sit, 1-0510182019, 1
+1 498
+sit, 1-0510182057, 1
+1 633
+sit, 1-0510182137, 1
+1 561
+sit, 3-0510142336, 1
+1 936
+sit, 3-0510142419, 1
+1 1096
+sit, 3-0510142800, 1
+1 1019
+sit, 4-0510173506, 1
+1 651
+sit, 4-0510173634, 1
+1 391
+sit, 4-0510173714, 1
+1 671
+sit, 5-0511141007, 1
+1 852
+sit, 5-0511141231, 1
+1 1294
+sit, 5-0511141338, 1
+1 1102
+walk, Video-1, 1
+1 1871
+walk, Video-2, 1
+1 948
