@@ -121,12 +121,6 @@ features:
   window_size: 5 # Number of adjacent frames for extracting features. 
 
 s1_get_skeletons_from_training_imgs.py:
-  openpose:
-    model: cmu # cmu or mobilenet_thin. "cmu" is more accurate but slower.
-    img_size: 656x368 #  656x368, or 432x368, 336x288. Bigger is more accurate.
-  input:
-    images_description_txt: data/source_images3/valid_images.txt
-    images_folder: data/source_images3/
   output:
     images_info_txt: data_proc/raw_skeletons/images_info.txt
     detected_skeletons_folder: &skels_folder data_proc/raw_skeletons/skeleton_res/
