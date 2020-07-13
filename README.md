@@ -64,7 +64,7 @@ Follow its tutorial.
 Please be sure that simplejson is installed. if not:
 
 ```
-pip install simplejson
+pip3 install simplejson
 ```
 
 # 3. Program structure
