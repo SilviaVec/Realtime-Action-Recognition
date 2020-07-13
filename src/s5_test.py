@@ -166,7 +166,7 @@ img_disp_desired_rows = int(cfg["settings"]["display"]["desired_rows"])
 # -- Function
 
 
-def select_images_loader(src_data_type, src_data_path):
+''' def select_images_loader(src_data_type, src_data_path):
     if src_data_type == "video":
         images_loader = lib_images_io.ReadFromVideo(
             src_data_path,
@@ -185,7 +185,7 @@ def select_images_loader(src_data_type, src_data_path):
             webcam_idx = src_data_path
         images_loader = lib_images_io.ReadFromWebcam(
             SRC_WEBCAM_MAX_FPS, webcam_idx)
-    return images_loader
+    return images_loader'''
 
 
 class MultiPersonClassifier(object):
@@ -242,9 +242,9 @@ def remove_skeletons_with_few_joints(skeletons):                              ##
     ''' Remove bad skeletons before sending to the tracker '''
     good_skeletons = []
     for skeleton in skeletons:
-        px = skeleton[2:2+13*3:3]
-        py = skeleton[3:2+13*3:3]
-        pz = skeleton[4:2+13*3:3]
+        px = skeleton[3:2+13*3:3]
+        py = skeleton[4:2+13*3:3]
+        pz = skeleton[5:2+13*3:3]
         num_valid_joints = len([x for x in px if x != 0])
         num_leg_joints = len([x for x in px[-6:] if x != 0])
         total_size = max(py) - min(py)
@@ -320,8 +320,8 @@ if __name__ == "__main__":
     multiperson_classifier = MultiPersonClassifier(SRC_MODEL_PATH, CLASSES)
 
     # -- Image reader and displayer
-    images_loader = select_images_loader(SRC_DATA_TYPE, SRC_DATA_PATH)
-    img_displayer = lib_images_io.ImageDisplayer()
+    # images_loader = select_images_loader(SRC_DATA_TYPE, SRC_DATA_PATH)
+    # img_displayer = lib_images_io.ImageDisplayer()
 
     # -- Init output
 
@@ -330,8 +330,8 @@ if __name__ == "__main__":
     os.makedirs(DST_FOLDER + DST_SKELETON_FOLDER_NAME, exist_ok=True)
 
     # video writer
-    video_writer = lib_images_io.VideoWriter(
-        DST_FOLDER + DST_VIDEO_NAME, DST_VIDEO_FPS)
+    ''' video_writer = lib_images_io.VideoWriter(
+        DST_FOLDER + DST_VIDEO_NAME, DST_VIDEO_FPS)'''
 
     # -- Read images and process
     try:
@@ -339,45 +339,46 @@ if __name__ == "__main__":
         while images_loader.has_image():
 
             # -- Read image
-            img = images_loader.read_image()
+            '''img = images_loader.read_image()
             ith_img += 1
             img_disp = img.copy()
-            print(f"\nProcessing {ith_img}th image ...")
+            print(f"\nProcessing {ith_img}th image ...")'''
 
             # -- Detect skeletons
-            humans = skeleton_detector.detect(img)
-            skeletons, scale_h = skeleton_detector.humans_to_skels_list(humans)
-            skeletons = remove_skeletons_with_few_joints(skeletons)
+            # humans = skeleton_detector.detect(img)
+            # skeletons, scale_h = skeleton_detector.humans_to_skels_list(humans)
+            # skeletons = remove_skeletons_with_few_joints(skeletons)
 
             # -- Track people
-            dict_id2skeleton = multiperson_tracker.track(                          ## IL MULTIPERSON NON CI SERVE
-                skeletons)  # int id -> np.array() skeleton
+            ''' dict_id2skeleton = multiperson_tracker.track(                          ## IL MULTIPERSON NON CI SERVE
+                skeletons)  # int id -> np.array() skeleton'''
 
+        
             # -- Recognize action of each person
             if len(dict_id2skeleton):
                 dict_id2label = multiperson_classifier.classify(
                     dict_id2skeleton)
 
             # -- Draw
-            img_disp = draw_result_img(img_disp, ith_img, humans, dict_id2skeleton,     ## IL DRAW NON CI SERVE
-                                       skeleton_detector, multiperson_classifier)
+            ''' img_disp = draw_result_img(img_disp, ith_img, humans, dict_id2skeleton,     ## IL DRAW NON CI SERVE
+                                       skeleton_detector, multiperson_classifier) '''
 
             # Print label of a person
-            if len(dict_id2skeleton):                                                   ## IL lable non ci serve
+            '''if len(dict_id2skeleton):                                                   ## IL lable non ci serve
                 min_id = min(dict_id2skeleton.keys())
-                print("prediced label is :", dict_id2label[min_id])
+                print("prediced label is :", dict_id2label[min_id])'''
 
             # -- Display image, and write to video.avi
-            img_displayer.display(img_disp, wait_key_ms=1)
-            video_writer.write(img_disp)
+            # img_displayer.display(img_disp, wait_key_ms=1)
+            # video_writer.write(img_disp)
 
             # -- Get skeleton data and save to file
-            skels_to_save = get_the_skeleton_data_to_save_to_disk(
+            '''skels_to_save = get_the_skeleton_data_to_save_to_disk(
                 dict_id2skeleton)
             lib_commons.save_listlist(
                 DST_FOLDER + DST_SKELETON_FOLDER_NAME +
                 SKELETON_FILENAME_FORMAT.format(ith_img),
-                skels_to_save)
+                skels_to_save)'''
     finally:
-        video_writer.stop()
+        # video_writer.stop()
         print("Program ends")
