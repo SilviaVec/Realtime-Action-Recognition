@@ -5,7 +5,10 @@
 
 
 **Highlights**: 
-4 actions; single people; Real-time and multi-frame based recognition algorithm. 
+4 actions; single people; Real-time and multi-frame based recognition algorithm.   
+  
+This work is derived by felixchenfy/Realtime-Action-Recognition and our work was to introduce the third dimension.
+
 
 **Contents:**
 - [1. Algorithm](#1-algorithm)
