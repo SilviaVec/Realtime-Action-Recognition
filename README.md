@@ -202,11 +202,11 @@ The test data (a video, and a folder of images) are already included under the [
 An example result of the input video "exercise.avi" is:
 
 ```
-output/exercise/
-├── action
-└── action_stabilzed
+output
+├── action.csv
+└── action_stabilizzato.csv
 ```
-Also, the result will be displayed by cv2.imshow().
+Also, the video result is saved in the main folder.
 
 Example commands are given below:
 
