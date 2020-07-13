@@ -7,13 +7,7 @@
 
 
 **Highlights**: 
-9 actions; multiple people (<=5); Real-time and multi-frame based recognition algorithm.
-
-**Updates**: On 2019-10-26, I refactored the code; added more comments; and put all settings into the [config/config.yaml](config/config.yaml) file, including: classes of actions, input and output of each file, OpenPose settings, etc. 
-
-**Project**: This is my final project for EECS-433 Pattern Recognition in Northwestern Univeristy on March 2019. A simpler version where two teammates and I worked on is [here](https://github.com/ChengeYang/Human-Pose-Estimation-Benchmarking-and-Action-Recognition).
-
-**Warning:** Since I used the 10 fps video and 0.5s-window for training, you must also limit your video fps to be about 10 fps (7~12 fps) if you want to test my pretrained model on your own video or web camera. 
+4 actions; single people (<=5); Real-time and multi-frame based recognition algorithm. 
 
 **Contents:**
 - [1. Algorithm](#1-algorithm)
@@ -38,18 +32,17 @@
 # 1. Algorithm
 
 
-I collected videos of 4 Types of actions: `['stand', 'walk', 'sit', 'meal']`. 
+we collected videos of 4 Types of actions: `['stand', 'walk', 'sit', 'meal']`. 
 We used the following dataset for training:
 •CMU Panoptic Dataset (http://domedb.perception.cs.cmu.edu/)
-•CAD-120 (http://pr.cs.cornell.edu/humanactivities/data.php) (3D point extracted using lifting from the deep: https://github.com/DenisTome/Lifting-from-the-Deep-release)
-•Two videos (https://www.youtube.com/watch?v=rXjx5Jplfz8, https://www.youtube.com/watch?v=Jn52_g7CKx0) (3D point extracted using lifting from the deep: https://github.com/DenisTome/Lifting-from-the-Deep-release)
+•CAD-120 (http://pr.cs.cornell.edu/humanactivities/data.php) (3D point extracted using Lifting from the Deep: https://github.com/DenisTome/Lifting-from-the-Deep-release)
+•Two videos (https://www.youtube.com/watch?v=rXjx5Jplfz8, https://www.youtube.com/watch?v=Jn52_g7CKx0) (3D point extracted using Lifting from the Deep: https://github.com/DenisTome/Lifting-from-the-Deep-release)
 
 The workflow of the algorithm is:
-*  Get the joints' positions by [OpenPose](https://github.com/ildoonet/tf-pose-estimation).  
-*  Track each person. Euclidean distance between the joints of two skeletons is used for matching two skeletons. 
+*  Get the joints' positions (this can be done with Lifting from the Deep: https://github.com/DenisTome/Lifting-from-the-Deep-release).  
+*  Track person. Euclidean distance between the joints of two skeletons is used for matching two skeletons. 
 See `class Tracker` in [lib_tracker.py](utils/lib_tracker.py)
 *  Fill in a person's missing joints by these joints' relative pos in previous frame.  See `class FeatureGenerator` in [lib_feature_proc.py](utils/lib_feature_proc.py). So does the following.
-*  Add noise to the (x, y) joint positions to try to augment data.
 *  Use a window size of 0.5s (5 frames) to extract features.    
 *  Extract features of (1) body velocity and (2) normalized joint positions and (3) joint velocities.
 *  Apply PCA to reduce feature dimension to 80.  Classify by DNN of 3 layers of 50x50x50 (or switching to other classifiers in one line). See `class ClassifierOfflineTrain` in [lib_classifier.py](utils/lib_classifier.py)
