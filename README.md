@@ -5,7 +5,7 @@
 
 
 **Highlights**: 
-4 actions; single people (<=5); Real-time and multi-frame based recognition algorithm. 
+4 actions; single people; Real-time and multi-frame based recognition algorithm. 
 
 **Contents:**
 - [1. Algorithm](#1-algorithm)
