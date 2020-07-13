@@ -253,3 +253,5 @@ Finally we don't take advantage of the fact that inputs frames are correlated ov
   
 How to improve:  
 Improve and expand the dataset and use a rnn.
+
+If you want read more about this project you can find our report in [doc/activity_recognition_report.pdf](doc/activity_recognition_report.pdf).
