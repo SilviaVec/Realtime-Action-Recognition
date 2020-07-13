@@ -50,7 +50,7 @@ For more details about how the features are extracted, please see my [report](ht
 
 
 
-# 2. Install Dependency (OpenPose)
+# 2. Install Dependency (Lifting from the Deep)
 
 First, Python >= 3.6.
 
