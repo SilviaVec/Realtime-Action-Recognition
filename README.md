@@ -1,5 +1,5 @@
 
-# Multi-person Real-time Action Recognition Based-on Human Skeleton
+# Real-time Action Recognition Based-on Human Skeleton
 
 ![](https://github.com/felixchenfy/Data-Storage/raw/master/EECS-433-Pattern-Recognition/recog_actions.gif)
 
