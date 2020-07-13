@@ -138,11 +138,11 @@ src/s5_test_new.py
 The input and output of these files as well as some parameters are defined in the configuration file [config/config.yaml](config/config.yaml). I paste part of it below just to provide an intuition:
 
 ``` yaml
-classes: ['stand', 'walk', 'run', 'jump', 'sit', 'squat', 'kick', 'punch', 'wave']
+classes: ['sit', 'stand', 'walk', 'meal']
 
 image_filename_format: "{:05d}.jpg"
-skeleton_filename_format: "{:05d}.txt"
-
+skeleton_filename_format: "{:08d}.json"                                              #MODIFIED
+ 
 features:
   window_size: 5 # Number of adjacent frames for extracting features. 
 
@@ -154,7 +154,7 @@ s1_get_skeletons_from_training_imgs.py:
     images_description_txt: data/source_images3/valid_images.txt
     images_folder: data/source_images3/
   output:
-    images_info_txt: data_proc/raw_skeletons/images_info.txt # This file is not used.
+    images_info_txt: data_proc/raw_skeletons/images_info.txt
     detected_skeletons_folder: &skels_folder data_proc/raw_skeletons/skeleton_res/
     viz_imgs_folders: data_proc/raw_skeletons/image_viz/
 
