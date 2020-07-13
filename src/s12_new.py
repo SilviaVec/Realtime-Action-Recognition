@@ -148,8 +148,8 @@ def CheckType(stringa):
         
     if 'walk' in stringa: 
         return(3)
-    if 'meal' in stringa: 
-        return(4)
+    '''if 'meal' in stringa: 
+        return(4)'''
     return 0
 
 
@@ -188,7 +188,8 @@ contaFrame =0
 FPS = 30
 error = 0
 
-lableList = ['sit', 'stand', 'walk', 'meal']
+# lableList = ['sit', 'stand', 'walk', 'meal']
+lableList = ['sit', 'stand', 'walk']
 
 for line in f1:
     action = CheckType(line)
