@@ -165,8 +165,6 @@ The output is set by `--output_folder`, e.g.: output/.
 
 The test data (a video, and a folder of images) are already included under the [data_test/](data_test/) folder.
 
-An example result of the input video "exercise.avi" is:
-
 ```
 output
 ├── action.csv
