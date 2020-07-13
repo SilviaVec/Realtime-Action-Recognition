@@ -129,11 +129,13 @@ Trouble shooting:
 ## Main scripts
 The 5 main scripts are under `src/`. They are named under the order of excecution:
 ```
-src/s1_get_skeletons_from_training_imgs.py    
+src/s1_get_skeletons_from_training_imgs.py   # deprecated     
+src/s12_new.py
 src/s2_put_skeleton_txts_to_a_single_txt.py
 src/s3_preprocess_features.py
 src/s4_train.py 
-src/s5_test.py
+src/s5_test.py  # deprecated
+src/s5_test_new.py
 ```
 
 The input and output of these files as well as some parameters are defined in the configuration file [config/config.yaml](config/config.yaml). I paste part of it below just to provide an intuition:
