@@ -9,7 +9,7 @@
 
 **Contents:**
 - [1. Algorithm](#1-algorithm)
-- [2. Install Dependency (OpenPose)](#2-install-dependency--Lifting from the Deep-)
+- [2. Install Dependency (Lifting from the Deep)](#2-install-dependency--Lifting from the Deep-)
 - [3. Program structure](#3-program-structure)
   * [Diagram](#diagram)
   * [Main scripts](#main-scripts)
