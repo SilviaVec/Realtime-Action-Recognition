@@ -200,7 +200,7 @@ stand, 171204_pose1, 1
 221 296
 ```
 In each paragraph,  
-the 1st line is the data folder name, which should start with `"${class_name}_"`. 
+the 1st line is the action, the data folder name, which should start with `"${class_name}_"` and the person's id. 
 The 2nd and following lines specify the `staring index` and `ending index` of the video that corresponds to that class.
 
 Let's take the 1st paragraph of the above snapshot as an example: `stand` is the class, and the frames `12~54` & `63~149` of the video are used for training.
