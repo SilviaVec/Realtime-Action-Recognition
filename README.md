@@ -208,34 +208,11 @@ output
 ```
 Also, the video result is saved in the main folder.
 
-Example commands are given below:
+Put your data in a folder in "data_test"
+In [src/s5_test_new.py](src/s5_test_new.py) at line 178, 152 modufy the folder name.
+In [src/s5_test_new.py](src/s5_test_new.py) at line 321 modufy the video name.
 
-## Test on video file
-``` bash
-python src/s5_test.py \
-    --model_path model/trained_classifier.pickle \
-    --data_type video \
-    --data_path data_test/exercise.avi \
-    --output_folder output
-```
 
-## Test on a folder of images
-``` bash
-python src/s5_test.py \
-    --model_path model/trained_classifier.pickle \
-    --data_type folder \
-    --data_path data_test/apple/ \
-    --output_folder output
-```
-
-## Test on web camera
-``` bash
-python src/s5_test.py \
-    --model_path model/trained_classifier.pickle \
-    --data_type webcam \
-    --data_path 0 \
-    --output_folder output
-```
 
 # 5. Training data
 
