@@ -213,9 +213,9 @@ The classes are set in [config/config.yaml](config/config.yaml) under the key wo
 
 # 6. How to run: Training
 
-First, you may read
-* Section `5. Training data`
+First, you may read  
 * Section `3. Program structure`
+* Section `5. Training data`
 * [config/config.yaml](config/config.yaml)
 
 to know the training data format and the input and output of each script.
