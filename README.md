@@ -186,7 +186,7 @@ Follow the instructions in [dataset/readme.txt](dataset/readme.txt) to download 
 
 ## Data format
 
-Each data subfolder (e.g. `dataset/.../jump_03-02-12-34-01-795/`) contains images named as `00001.jpg`, `00002.jpg`, etc.   
+Each data subfolder (e.g. `dataset/171204_pose1/`) contains images named as `00001.jpg`, `00002.jpg`, etc.   
 The naming format of each image is defined in [config/config.yaml](config/config.yaml) by the sentence: `image_filename_format: "{:05d}.jpg"`.
 
 The images to be used as training data and their label are configured by this txt file: [src/githubs/Lable_video.txt](src/githubs/Lable_video.txt).  
