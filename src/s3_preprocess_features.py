@@ -81,7 +81,7 @@ def main():
 
     # Load data
     X0, Y0, video_indices = load_skeleton_data(SRC_ALL_SKELETONS_TXT, CLASSES)
-
+    
     # Process features
     print("\nExtracting time-serials features ...")
     X, Y = process_features(X0, Y0, video_indices, CLASSES)

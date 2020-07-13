@@ -5,7 +5,6 @@
 Read multiple skeletons txts and saved them into a single txt.
 If an image doesn't have skeleton, discard it.
 If an image label is not `CLASSES`, discard it.
-
 Input:
     `skeletons/00001.txt` ~ `skeletons/xxxxx.txt` from `SRC_DETECTED_SKELETONS_FOLDER`.
 Output:
@@ -117,7 +116,7 @@ if __name__ == "__main__":
         all_skeletons.append(skeleton)
 
         # Print
-        if i == 1 or i % 100 == 0:
+        if i == 1 or i % 100 == 0:                            
             print("{}/{}".format(i, num_skeletons))
 
     # -- Save to txt
