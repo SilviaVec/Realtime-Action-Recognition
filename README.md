@@ -203,11 +203,8 @@ An example result of the input video "exercise.avi" is:
 
 ```
 output/exercise/
-├── skeletons
-│   ├── 00000.txt
-│   ├── 00001.txt
-│   └── ...
-└── video.avi
+├── action
+└── action_stabilzed
 ```
 Also, the result will be displayed by cv2.imshow().
 
